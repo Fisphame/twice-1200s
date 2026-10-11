@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>Twice1200.App</RootNamespace>
+    <AssemblyName>Twice1200</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <!--
+      刻意不设置 EnableDefaultApplicationDefinition=false —— 保留默认行为,
+      让 SDK 自动把 App.xaml 当作应用程序定义、把其它 .xaml 当作页面。
+      显式声明反而容易漏掉某个文件。
+    -->
+
+    <SatelliteResourceLanguages>zh-Hans;en</SatelliteResourceLanguages>
+
+    <!-- 界面不需要裁剪,保留完整运行时行为以便排查问题 -->
+    <PublishTrimmed>false</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Twice1200.Core\Twice1200.Core.csproj" />
+  </ItemGroup>
+
+  <!--
+    ============================================================
+     构建期守卫:项目根目录下的 .cmd 文件必须是纯 ASCII。
+    ============================================================
+
+    为什么需要它:cmd.exe 按 ANSI 代码页读取 .cmd 文件。
+    如果 .cmd 里含非 ASCII 字符(例如中文注释)而文件是 UTF-8 无 BOM,
+    cmd 会把字节按 GBK 解读,乱码字节会破坏命令本身 ——
+    表现为一堆「不是内部或外部命令」而完全无法运行。
+
+    这个坑真实踩过一次(verify.cmd),排查成本不低,
+    因此改成编译时就拦住,而不是等用户双击才发现。
+
+    用外部脚本而不是 MSBuild 属性函数:后者的字符串与集合操作支持有限,
+    写出来既难读也难调试;而一个小脚本可以在任何地方单独运行。
+  -->
+  <Target Name="CheckScriptEncodings" BeforeTargets="Build"
+          Condition="Exists('$(MSBuildThisFileDirectory)..\..\tests\scripts-check.ps1')">
+    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildThisFileDirectory)..\..\tests\scripts-check.ps1&quot; -Root &quot;$(MSBuildThisFileDirectory)..\..&quot; -Quiet"
+          ContinueOnError="false" />
+  </Target>
+
+</Project>

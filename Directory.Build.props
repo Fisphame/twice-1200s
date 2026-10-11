@@ -1,0 +1,41 @@
+<Project>
+
+  <!--
+    全解决方案共享的构建设置。
+    注意:TargetFramework 刻意不在这里定义 —— 因为 Tunnel.Core 是纯 net9.0,
+    而 Tunnel.Cli / Tunnel.App 需要 net9.0-windows(Windows 专属 API)。
+    每个项目在自己文件里显式声明。
+  -->
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- 只对我们自己的代码严格,不把 NuGet 依赖的警告升级成错误 -->
+    <TreatWarningsAsErrors Condition="'$(MSBuildProjectName)' == 'Twice1200.Core'">true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors Condition="'$(MSBuildProjectName)' == 'Twice1200.Cli'">true</TreatWarningsAsErrors>
+
+    <!-- 先只打开编译器自带的分析器。
+         把 AnalysisLevel 提到 latest-recommended 会引入大量 CA 规则,
+         等核心逻辑稳定后再分阶段引入(见 README 的"后续工作")。 -->
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+
+    <!-- 可复现构建:相同输入产出相同输出 -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <DebugType>portable</DebugType>
+
+    <Company>Twice1200</Company>
+    <Product>Twice1200 网络工具</Product>
+    <Version>0.1.0</Version>
+
+    <!-- 中文输出:控制台与日志都按 UTF-8 处理,避免乱码 -->
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+</Project>

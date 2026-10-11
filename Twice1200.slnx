@@ -1,0 +1,7 @@
+<Solution>
+  <!-- 这是现代化的解决方案格式,比 .sln 更简洁、合并冲突更少。
+       .NET 10 与较新的 IDE 支持它;为了兼容 Rider 2025.1 与 VS 2022,同时保留了 Twice1200.sln。 -->
+  <Project Path="src/Twice1200.Core/Twice1200.Core.csproj" />
+  <Project Path="src/Twice1200.Cli/Twice1200.Cli.csproj" />
+  <Project Path="tests/Twice1200.SelfTest/Twice1200.SelfTest.csproj" />
+</Solution>

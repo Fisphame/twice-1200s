@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <RootNamespace>Twice1200.Cli</RootNamespace>
+    <AssemblyName>twice1200</AssemblyName>
+
+    <!-- 不锁定 RuntimeIdentifier:开发期用 dotnet build / dotnet run 免 RID 构建,
+         需要独立可执行文件时用 -r win-x64 显式指定(见 README)。 -->
+    <SelfContained>false</SelfContained>
+    <SatelliteResourceLanguages>zh-Hans;en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Twice1200.Core\Twice1200.Core.csproj" />
+  </ItemGroup>
+
+</Project>

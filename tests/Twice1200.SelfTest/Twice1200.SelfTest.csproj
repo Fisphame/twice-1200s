@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    无第三方测试框架的自检程序。
+
+    为什么不用 xUnit / NUnit:
+      开发环境的 NuGet 还原受限,引入测试框架会让整个解决方案无法本地构建。
+      这个项目只依赖 Core,永远可以构建与运行。
+
+    取舍:
+      这不是替代品 —— 没有"测试发现"、没有测试报告、没有 xUnit 的断言生态。
+      它的定位是"冒烟测试 / 早期验证",用来在没有 GUI 的情况下证明 Core 的关键路径可用。
+      等 NuGet 可用后,再把测试用例迁移到 tests/Twice1200.Core.Tests(xUnit)。
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Twice1200.SelfTest</RootNamespace>
+    <AssemblyName>twice1200-selftest</AssemblyName>
+    <IsPackable>false</IsPackable>
+
+    <!-- 自检会调用 DPAPI(Windows 专有)。本程序本来就只在 Windows 上运行,
+         显式声明可以消除 CA1416 的平台警告,而不是把警告压掉。 -->
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Twice1200.Core\Twice1200.Core.csproj" />
+  </ItemGroup>
+
+</Project>

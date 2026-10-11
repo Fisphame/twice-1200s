@@ -1,0 +1,12 @@
+# assets 完整性清单
+#
+# 用途:分发前核对二进制是否被替换或损坏。
+# 命令:twice1200 paths --hash   或   Get-FileHash <文件> -Algorithm SHA256
+#
+# 注意:本清单不含 frps.exe —— Windows Defender 会在复制后数秒内将其删除。
+#       服务端部署时请直接从原始目录取用 frps.exe。
+
+6E89B763CD4DD79F0C3082F09813EFBD3DAC4374A95455FE86ED27C363309A45  frp\frpc.exe
+6D89218E8A6409A2C8F1D82E615B7BC40AA204B7AF6C4F48D0444E3546F3CF1C  n2n\edge.exe
+88FCBCB3ABAD35BB394AF69A3F4364ABCB58100ED56A759C6F9542C3081CBF8C  n2n\supernode.exe
+645BEE92BA4E9F32DDFDD9F8519DC1B9F9FF0B0A8E87E342F08D39DA77E499A9  tap\tap-windows-9.21.2.exe

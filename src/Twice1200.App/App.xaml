@@ -1,0 +1,12 @@
+<Application x:Class="Twice1200.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+  <Application.Resources>
+    <!--
+      刻意保持资源字典为空。
+      界面先用最朴素的形式把功能跑通,样式留到功能稳定之后再谈 ——
+      否则一旦出现编译问题,很难判断是逻辑错了还是样式写法有问题。
+    -->
+  </Application.Resources>
+</Application>

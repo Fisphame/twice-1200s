@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+
+  <!--
+    【重要】这里刻意不声明 requestedExecutionLevel=requireAdministrator。
+
+    原因:本程序平时应以**标准权限**运行 —— 它要常驻、要显示状态、要读写用户自己的配置。
+    让一个整天开着的界面全程持有管理员权限,会把攻击面扩大到整个系统。
+
+    真正需要特权的操作(装驱动、改名网卡、启动 edge)由一个专门的提权进程完成,
+    用完即退。这是本项目提权模型的核心,实测也确认了 edge 必须提权才能访问 TAP 网卡。
+  -->
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+    <security>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+
+  <!-- 高 DPI 感知,避免界面在高分屏上模糊 -->
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2</dpiAwareness>
+      <longPathAware xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">true</longPathAware>
+    </windowsSettings>
+  </application>
+
+  <!-- 明确声明支持 Windows 10 及以上,避免系统以兼容模式运行 -->
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    </application>
+  </compatibility>
+
+</assembly>

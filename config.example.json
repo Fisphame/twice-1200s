@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "n2n": {
+    "supernode": "1200s.top:7777",
+    "community": "mygroup",
+    "assignedIp": "10.236.167.114",
+    "virtualNetwork": "10.236.167.0/24",
+    "key": {
+      "handle": "n2n/key",
+      "source": "Dpapi"
+    },
+    "tap": {
+      "adapterName": "n2n-TAP",
+      "fallbackAdapterName": "n2n-TAP",
+      "autoFallbackOnNonChineseCodePage": true
+    }
+  },
+  "frp": {
+    "serverAddress": "39.105.139.45",
+    "serverPort": 7000,
+    "authToken": {
+      "handle": "frp/token",
+      "source": "Dpapi"
+    },
+    "requireTls": true,
+    "proxies": [
+      {
+        "name": "web",
+        "type": "tcp",
+        "localIp": "127.0.0.1",
+        "localPort": 25565,
+        "remotePort": 25565
+      }
+    ]
+  }
+}
