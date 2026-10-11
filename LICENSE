@@ -1,0 +1,55 @@
+MIT License
+
+Copyright (c) 2026 Fisphame
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+THIRD-PARTY COMPONENTS
+================================================================================
+
+The MIT license above applies to the source code of this project (the
+Twice1200.Core, Twice1200.Cli and Twice1200.App projects, and the test
+project).
+
+This repository ALSO contains third-party binaries under assets/ which are
+NOT covered by the MIT license. Each remains under its own license and is
+redistributed unmodified:
+
+  assets/n2n/edge.exe, assets/n2n/supernode.exe
+      n2n (https://github.com/ntop/n2n)
+      Licensed under GPLv3. See the n2n project for the full license text.
+      NOTE: the license file is NOT yet included in this repository.
+            This must be resolved before distributing the binaries.
+
+  assets/frp/frpc.exe
+      frp (https://github.com/fatedier/frp)
+      Licensed under the Apache License 2.0.
+      Full text: assets/frp/LICENSE-frp.txt
+
+  assets/tap/tap-windows-9.21.2.exe
+      TAP-Windows driver (part of OpenVPN,
+      https://github.com/OpenVPN/openvpn-windows)
+      Licensed under GPLv2. See the OpenVPN project for the full text.
+      NOTE: the license file is NOT yet included in this repository.
+
+If you redistribute this project together with those binaries, you are
+responsible for complying with their licenses as well - not only with the MIT
+license above. If you only want the permissively licensed part, use the source
+code and obtain the third-party components yourself.

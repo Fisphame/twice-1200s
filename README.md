@@ -984,13 +984,51 @@ supernode: [sn_utils.c:1914] new community: local-probe-communi
 
 ---
 
-## 许可与分发注意事项
+## 许可
 
-| 组件 | 许可证 | 分发要求 |
+**本项目的源代码采用 [MIT 许可证](LICENSE)。**
+
+```
+Copyright (c) 2026 Fisphame
+```
+
+可以自由使用、修改、再分发,包括用于商业目的,条件是保留版权声明。
+软件按"原样"提供,不附带任何担保。
+
+### 但 `assets/` 里的第三方二进制不是 MIT
+
+这是**最需要注意的一点**:本仓库同时包含几个第三方二进制,
+**它们各自适用自己的许可证,不受上面的 MIT 覆盖。**
+
+| 组件 | 许可证 | 说明 |
 |---|---|---|
-| frp | Apache-2.0 | 允许再分发,**必须保留 LICENSE 文件**(已放 `assets/frp/LICENSE-frp.txt`) |
-| n2n | GPLv3 系 | **分发前必须确认条款**,并随包附上其 LICENSE(当前 `assets/n2n/` 里缺) |
-| TAP-Windows 驱动 | 独立授权 | 随包分发前需确认 |
+| `assets/frp/frpc.exe` | **Apache-2.0** | 允许再分发,**必须保留 LICENSE 文件**。已放 `assets/frp/LICENSE-frp.txt` |
+| `assets/n2n/edge.exe`、`supernode.exe` | **GPL-3.0-or-later** | 见下方说明 |
+| `assets/tap/tap-windows-9.21.2.exe` | **GPLv2**(OpenVPN 项目的一部分) | 随包分发前需确认条款 |
+
+n2n 的许可证经查证为 GPL-3.0-or-later,来源是
+[GNU Guix 的 n2n 软件包元数据](https://packages.guix.gnu.org/packages/n2n/)
+(标注 "Licenses: GPL 3+")。二进制本身经检查确认由 ntop 官方源码构建:
+内嵌字符串为 `Copyright 2007-2021 - ntop.org and contributors`,版本 `3.1.0`。
+
+**当前仓库里缺 n2n 与 TAP 的许可证文件**,分发前需要补上。
+
+### 如果只想用 MIT 的部分
+
+有一个需要知道的后果:**把 GPL 的二进制与 MIT 的源代码一起分发,
+整体分发需要同时满足 GPL 的要求** —— 保留许可证与版权声明是底线。
+
+两种做法:
+
+1. **只分发源代码,让使用者自行获取第三方二进制** —— 这样 MIT 就是唯一约束。
+   本项目的 `assets/README.md` 说明了各个二进制的来源与放置方式。
+2. **随包分发二进制** —— 必须补齐所有许可证文件,并保留它们的版权声明。
+
+**这不是法律意见。** 如果计划正式对外发布,建议就 "MIT 代码 + GPL 二进制"
+的组合方式咨询一下。上面写的是查证到的事实与一般性要求。
+
+### 代码签名
 
 **所有第三方二进制都没有代码签名。** Windows SmartScreen 首次运行会拦截并显示
 "未知发布者"的警告,这是给无基础用户分发时必然会遇到的问题,需要提前准备好说明文案。
+
