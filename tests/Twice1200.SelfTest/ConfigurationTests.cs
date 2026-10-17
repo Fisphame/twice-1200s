@@ -225,6 +225,75 @@ public static class ConfigurationTests
             Check.DoesNotContain(reason!, secret,
                 "弱密钥的判定说明会被写入日志,绝不能回显口令内容");
         });
+
+        // ---------------------------------------------------------------- 虚拟网段推导
+
+        suite.Test("虚拟网段:不含该 IP 时按 /24 推导", () =>
+        {
+            // 这是真实出过的故障:界面上没有网段输入框,保存时从模板起手,
+            // 于是网段永远是模板默认值,和用户填的 IP 无关。
+            var derived = VirtualNetworkResolver.TryDerive(
+                "10.42.0.0/24",
+                "10.236.167.114");
+
+            Check.Equal("10.236.167.0/24", derived, "应从 IP 推导出正确的网段");
+        });
+
+        suite.Test("虚拟网段:推导结果已做掩码对齐", () =>
+        {
+            // IP 是 .114,网段应当归一成 .0
+            var derived = VirtualNetworkResolver.TryDerive(null, "10.236.167.114");
+
+            Check.Equal("10.236.167.0/24", derived, "网络地址应被掩码对齐");
+        });
+
+        suite.Test("虚拟网段:已包含该 IP 时保持不变", () =>
+        {
+            // 尊重既有配置 —— 有人可能刻意用更大的网段
+            Check.Equal<string?>(null,
+                VirtualNetworkResolver.TryDerive("10.236.167.0/24", "10.236.167.114"),
+                "网段已包含该 IP,不应改动");
+
+            Check.Equal<string?>(null,
+                VirtualNetworkResolver.TryDerive("10.0.0.0/8", "10.236.167.114"),
+                "更大的网段(如 /8)也应保留");
+        });
+
+        suite.Test("虚拟网段:IP 缺失或非法时不做推导", () =>
+        {
+            Check.Equal<string?>(null, VirtualNetworkResolver.TryDerive("10.42.0.0/24", null),
+                "没有 IP 时不应推导");
+            Check.Equal<string?>(null, VirtualNetworkResolver.TryDerive("10.42.0.0/24", "   "),
+                "空白 IP 不应推导");
+            Check.Equal<string?>(null, VirtualNetworkResolver.TryDerive("10.42.0.0/24", "not-an-ip"),
+                "非法 IP 不应崩溃,也不应推导");
+        });
+
+        suite.Test("虚拟网段:推导后配置能通过校验", () =>
+        {
+            // 这条是端到端的:推导出来的网段必须让校验器满意,
+            // 否则等于没修。
+            var configuration = BuildValid();
+            configuration.N2n.VirtualNetwork = "10.42.0.0/24";   // 故意不匹配
+            configuration.N2n.AssignedIp = "10.236.167.114";
+
+            var before = ConfigurationValidator.Validate(configuration);
+            Check.True(
+                before.Any(i => i.Path == "n2n.assignedIp"),
+                "修之前应当报「IP 不在网段内」");
+
+            var derived = VirtualNetworkResolver.TryDerive(
+                configuration.N2n.VirtualNetwork,
+                configuration.N2n.AssignedIp);
+
+            Check.NotNull(derived, "应能推导");
+            configuration.N2n.VirtualNetwork = derived!;
+
+            var after = ConfigurationValidator.Validate(configuration);
+            Check.False(
+                after.Any(i => i.Path == "n2n.assignedIp"),
+                "修之后不应再有网段不匹配的错误");
+        });
     }
 
     /// <summary>构造一份各方面都合法的配置,供各用例按需只改一处。</summary>

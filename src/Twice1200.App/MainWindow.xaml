@@ -17,9 +17,9 @@
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" MinHeight="240" />
-            <RowDefinition Height="6" />
-            <RowDefinition Height="220" MinHeight="120" />
+            <RowDefinition Height="2*" MinHeight="240" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" MinHeight="120" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -181,6 +181,22 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
+        <!-- ===== 可拖动的分隔条 =====
+             日志长的时候一直用固定高度很难受,所以这一条可以上下拖。
+             两侧的行都是按比例(*)分配的,因此窗口缩放时也按同一比例变化,
+             不会出现"拖动一次之后缩放窗口就变形"的问题。
+             MinHeight 保证不会被拖到看不见。 -->
+        <GridSplitter Grid.Row="2"
+                      Height="6"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center"
+                      ResizeDirection="Rows"
+                      ResizeBehavior="PreviousAndNext"
+                      Background="#D0D0D0"
+                      ShowsPreview="False"
+                      Cursor="SizeNS"
+                      ToolTip="上下拖动可调整日志区高度" />
 
         <!-- ===== 日志 ===== -->
         <DockPanel Grid.Row="3">

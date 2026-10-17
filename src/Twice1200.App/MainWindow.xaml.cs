@@ -932,6 +932,22 @@ public partial class MainWindow : Window
         var virtualIp = VirtualIpBox.Text.Trim();
         configuration.N2n.AssignedIp = string.IsNullOrWhiteSpace(virtualIp) ? null : virtualIp;
 
+        // 虚拟网段必须包含本机虚拟 IP。
+        //
+        // 界面上没有单独的网段输入框,而 BuildConfigurationFromUi 是从一份模板起手的,
+        // 所以不写这一行的话,网段会永远是模板默认值 —— 与用户填的 IP 无关。
+        // 那个 bug 之前一直存在,只是因为旧默认值恰好与用户的 IP 同网段而看不出来。
+        //
+        // 这里只在"当前网段不含该 IP"时才改写,以免覆盖有人刻意配置的更大网段。
+        var derivedNetwork = VirtualNetworkResolver.TryDerive(
+            configuration.N2n.VirtualNetwork,
+            virtualIp);
+
+        if (derivedNetwork is not null)
+        {
+            configuration.N2n.VirtualNetwork = derivedNetwork;
+        }
+
         // 密钥引用固定指向标准键名 —— 界面不保存明文
         configuration.N2n.Key = SecretReference.Dpapi(CredentialHandles.N2nKey);
         configuration.Frp.AuthToken = SecretReference.Dpapi(CredentialHandles.FrpAuthToken);
