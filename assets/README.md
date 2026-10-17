@@ -59,22 +59,28 @@ Copy-Item "$src\frp\frp\LICENSE"                    "$dst\frp\LICENSE-frp.txt" -
 **重要:本目录下的二进制不适用项目根目录 `LICENSE` 里的 MIT 许可证。**
 项目源码是 MIT,但这几个第三方组件各自适用自己的许可证。
 
-| 组件 | 许可证 | 分发要求 |
+| 组件 | 许可证 | 许可证文件 |
 |---|---|---|
-| `frp/frpc.exe` | **Apache-2.0** | 允许再分发,**必须保留 LICENSE 文件**(已放 `frp/LICENSE-frp.txt`) |
-| `n2n/edge.exe`、`n2n/supernode.exe` | **GPL-3.0-or-later** | 必须随包附上其 LICENSE —— **当前缺失** |
-| `tap/tap-windows-9.21.2.exe` | **GPLv2**(OpenVPN 项目的一部分) | 同上 —— **当前缺失** |
+| `frp/frpc.exe` | **Apache-2.0** | `frp/LICENSE-frp.txt` ✅ |
+| `n2n/edge.exe`、`n2n/supernode.exe` | **GPL-3.0-or-later** | `n2n/LICENSE-n2n.txt` ✅ |
+| `tap/tap-windows-9.21.2.exe` | **GPLv2**(OpenVPN 项目的一部分) | `tap/LICENSE-tap-windows.txt` ✅ |
 
-n2n 的许可证经查证为 GPL-3.0-or-later,来源是
-[GNU Guix 的 n2n 软件包元数据](https://packages.guix.gnu.org/packages/n2n/)(标注 "Licenses: GPL 3+")。
-二进制本身经检查确认由 ntop 官方源码构建:内嵌字符串
-`Copyright 2007-2021 - ntop.org and contributors`,版本 `3.1.0`。
+GPL 全文取自 gnu.org 官方发布版(`gpl-3.0.txt` 35149 字节、`gpl-2.0.txt` 17984 字节),
+未做任何改动。
 
-**把 GPL 的二进制与 MIT 的源代码一起分发,整体分发需要同时满足 GPL 的要求。**
-如果只想受 MIT 约束,就不要把本目录一起分发 —— 让使用者自行获取这些二进制
-(上面第 50 行附近有放置说明)。
+**归属是怎么确认的**(不是靠猜):
 
-详见项目根目录的 `LICENSE` 文件末尾的 "THIRD-PARTY COMPONENTS" 一节。
+| 组件 | 证据 |
+|---|---|
+| n2n | 二进制内嵌 `Copyright 2007-2021 - ntop.org and contributors`,版本 `3.1.0`;许可证由 [GNU Guix 的软件包元数据](https://packages.guix.gnu.org/packages/n2n/)标注为 "GPL 3+" |
+| TAP 驱动 | 安装包带**有效 Authenticode 签名**,签发主体 `CN="OpenVPN Technologies, Inc."`(DigiCert 签发) |
+| frp | 运行时报告版本 `0.68.0`;上游为 Apache-2.0 |
+
+**把 GPL 的二进制与 MIT 的源代码一起分发,整体分发需要同时满足 GPL 的要求**
+——保留许可证与版权声明是底线。如果只想受 MIT 约束,就不要把本目录一起分发,
+让使用者自行获取这些二进制(上面有放置说明)。
+
+详见项目根目录 `LICENSE` 文件末尾的 "THIRD-PARTY COMPONENTS" 一节。
 
 ### 安全
 
